@@ -1,0 +1,38 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-sm-12 text-center">
+            <h1>What's On Our Menu?</h1>
+        </div>
+    </div>
+<!-- Search bar-->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 col-sm-12 text-center">
+            <form method="GET" action="{% url 'menu-search' %}">
+                <div class="md-form mt-0 active-cyan-2"> <!-- active cyan will add a blue outline whenever we click on search bar-->
+                <!-- here name=q is used to set our url parameter
+                so we are making a change to our actual url when we make a search it 
+                will be /menu/search?q=search_query 
+                I will be extracting this paramenter or search_query eg : appetizer to be able to filter what's been listed
+                on the page based off whatever is passed in the search-->
+                    <input class="form-control" name="q" type="text" placeholder="Search Our Menu" aria-label="Search" value="{{ request.GET.q }}">
+                    <!-- here using value=request.GET.q because we want our search query to be actually present in our input field-->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        {% for item in menu_items %}
+        <div class="col-md-4 col-sm-12 text-center mb-5">
+            <img class="rounded" src="{{ item.image.url }}" width="350" height="300">
+            <h5 class="mt-3">{{ item.name }}</h5>
+            <p>Price: {{ item.price }}</p>
+            <p>{{ item.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
